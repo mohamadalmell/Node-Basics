@@ -82,7 +82,7 @@ function quit(){
 
 
 /**
- * Help the user
+ * Help the user of the application
  *
  * @returns {void}
  */function help(){
