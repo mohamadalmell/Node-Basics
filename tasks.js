@@ -125,7 +125,7 @@ function quit(){
   } else console.log("error!");
 }
 
-/**
+/*
  * Remove tasks
  *
  * @returns {void}
