@@ -33,7 +33,7 @@ function startApp(name){
  * @param  {string} text data typed by the user
  * @returns {void}
  */
-var cmd = ["quit", "hello", "help", "exit", "list", "add"];
+var cmd = ["quit", "hello", "help", "exit", "list", "add", "remove"];
 
 function onDataReceived(text) {
   if (text === 'quit\n' || text === 'exit\n') {
@@ -50,8 +50,10 @@ function onDataReceived(text) {
   }else if (text.replace("\n", '').trim() === cmd[5] || text.length>3 && text.includes("add"))  {
     text = text.trim().replace("\n", '')
     add(text);
-  }else
-    {
+  }else if (text.replace("\n", '').trim() === cmd[6] || text.length>6 && text.includes("remove"))  {
+    text = text.trim().replace("\n", '')
+    remove(text);
+  }else {
     unknownCommand(text);
   }
 }
@@ -121,6 +123,20 @@ function quit(){
     let item = input.split(" ", 2)
     tasks.push(item[1])
   } else console.log("error!");
+}
+
+/**
+ * Remove tasks
+ *
+ * @returns {void}
+ */function remove(input){
+    if (input === 'remove') {
+      tasks.splice(-1,1)
+    } else if (input.includes('1')) {
+      tasks.splice(0,1)
+    } else if (input.includes('2')) {
+      tasks.splice(1,1)
+    }
 }
 
 // The following line starts the application
