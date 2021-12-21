@@ -33,13 +33,13 @@ function startApp(name){
  * @param  {string} text data typed by the user
  * @returns {void}
  */
-var cmd = ["quit", "hello", "help", "exit", "list"];
+var cmd = ["quit", "hello", "help", "exit", "list", "add"];
 
 function onDataReceived(text) {
   if (text === 'quit\n' || text === 'exit\n') {
     quit();
   }
-  else if(text.replace("\n", '').trim() === 'hello\n' || text.length > 5){
+  else if(text.replace("\n", '').trim() === cmd[1] || text.length > 5 && text.includes('hello')){
     text= text.trim().replace("\n", '');
     hello(text);
   }
@@ -47,10 +47,13 @@ function onDataReceived(text) {
     help();
   } else if (text.replace("\n", '').trim() === cmd[4]) {
     list();
-  }else {
+  }else if (text.replace("\n", '').trim() === cmd[5] || text.length>3 && text.includes("add"))  {
+    text = text.trim().replace("\n", '')
+    add(text);
+  }else
+    {
     unknownCommand(text);
   }
-
 }
 
 
@@ -100,9 +103,24 @@ function quit(){
  *
  * @returns {void}
  */function list(input){
-  var all = `Tasks:\n${tasks[0]}\n${tasks[1]}\n${tasks[2]}\n`;
-  all = all.trim() 
-  console.log(all);
+  // var all = tasks.values;
+  // all = all.trim()
+  if (input != []) {
+    for (let i = 0; i < tasks.length; i++) {
+      console.log(tasks[i]);
+    }
+  }
+}
+
+/**
+ * Add tasks
+ *
+ * @returns {void}
+ */function add(input){
+  if (input.length>3) {
+    let item = input.split(" ", 2)
+    tasks.push(item[1])
+  } else console.log("error!");
 }
 
 // The following line starts the application
