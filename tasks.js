@@ -33,22 +33,24 @@ function startApp(name){
  * @param  {string} text data typed by the user
  * @returns {void}
  */
-var cmd = ["quit", "hello", "help", "exit"];
+var cmd = ["quit", "hello", "help", "exit", "list"];
 
 function onDataReceived(text) {
   if (text === 'quit\n' || text === 'exit\n') {
     quit();
   }
-  else if(text.replace("\n", '').trim() === 'hello\n' || text.replace("\n", '').trim() !== 'hello\n'){
+  else if(text.replace("\n", '').trim() === 'hello\n' || text.length > 5){
     text= text.trim().replace("\n", '');
     hello(text);
   }
-  else{
-    unknownCommand(text);
-  }if (text === 'help\n'){
+  else if (text === 'help\n'){
     help();
+  } else if (text.replace("\n", '').trim() === cmd[4]) {
+    list();
+  }else {
+    unknownCommand(text);
   }
-  
+
 }
 
 
@@ -93,5 +95,18 @@ function quit(){
   console.log('quit,exit -to exit the application' + '\n' + 'hello -to say Hello!');
 }
 
+/**
+ * Showing tasks
+ *
+ * @returns {void}
+ */function list(input){
+  var all = `Tasks:\n${tasks[0]}\n${tasks[1]}\n${tasks[2]}\n`;
+  all = all.trim() 
+  console.log(all);
+}
+
 // The following line starts the application
 startApp("Mohamad Al Mell")
+
+// Tasks
+  var tasks = ['laundry', 'dish washing', 'shopping']
