@@ -110,11 +110,13 @@ function quit(){
  *
  * @returns {void}
  */function list(input){
-  // var all = tasks.values;
-  // all = all.trim()
   if (input != []) {
     for (let i = 0; i < tasks.length; i++) {
-      console.log(`${i+1} - [ ] ${tasks[i]}`);
+      if (tasks[i].status === 'undone') {
+        console.log(`${i+1} - [ ] ${tasks[i].task}`);
+      } else {
+        console.log(`${i+1} - [✓] ${tasks[i].task}`);
+      }
     }
   }
 }
@@ -125,8 +127,8 @@ function quit(){
  * @returns {void}
  */function add(input){
   if (input.length>3) {
-    let item = input.split(" ", 2)
-    tasks.push(item[1])
+    let item = input.split(" ")
+    tasks.push({'task':item[1], 'status': 'undone'})
     console.log(`Added \"${item[1]}\" to the tasks`);
   } else console.log("error!");
 }
@@ -139,14 +141,14 @@ function quit(){
    let rmv = input.split(" ",2);
    let num = parseInt(rmv[1]);
    if (input === 'remove') {
-    console.log(`Removed \"${tasks[tasks.length-1]}\" from the tasks`);
+    console.log(`Removed \"${tasks[tasks.length -1].task}\" from the tasks`);
     tasks.splice(-1);
-  } else if (num > 0) {
-    console.log(`Removed \"${tasks[num-1]}\" from the tasks`);
+  } else if (num > tasks.length) {
+    console.log('Item doesn\'t exist');
+  }else if (0< num <= tasks.length  ) {
+    console.log(num);
+    console.log(`Removed \"${tasks[num-1].task}\" from the tasks`);
     tasks.splice((num-1),1);
-    if (num > tasks.length) {
-      console.log('Item doesn\'t exist');
-    }
   } 
  }
 
@@ -159,12 +161,12 @@ function quit(){
   let edt = input.split(" ");
   if (input === 'edit') {
    console.log('Wrong input!'); 
-  }else if (isNaN(edt[1]) == true) {
-    console.log(`Edited \"${tasks[tasks.length-1]}\"`);
-    tasks[tasks.length -1] = edt.slice(1).join(" ");
+  }else if (isNaN(edt[1]) == false) {
+    console.log(`Edited \"${tasks[edt[1]-1].task}\"`);
+    tasks[edt[1]-1].task = edt.slice(2).join(" ")
   } else {
-    console.log(`Edited \"${tasks[edt[1]-1]}\"`);
-    tasks[edt[1]-1] = edt.slice(2).join(" ")
+    console.log(`Edited \"${tasks[tasks.length-1].task}\"`);
+    tasks[tasks.length -1].task = edt.slice(1).join(" ");
   }
  }   
 
@@ -173,4 +175,4 @@ function quit(){
 startApp("Mohamad Al Mell")
 
 // Tasks
-  var tasks = ['laundry', 'dish washing', 'shopping']
+  var tasks = [{'task': 'laundry', 'status': 'undone'}, {'task': 'dish washing', 'status': 'done'}, {'task': 'shopping', 'status': 'done'}]
