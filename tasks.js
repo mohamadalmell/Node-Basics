@@ -1,4 +1,5 @@
 var fs = require('fs');
+var tasks = [];
 const { json } = require('stream/consumers');
 /**
  * Starts the application
@@ -13,7 +14,7 @@ const { json } = require('stream/consumers');
 function startApp(name){
   try{
     const data = JSON.parse(fs.readFileSync('/home/mohamad/Desktop/Mohamad-Codi/Node-Basics/database.json', 'utf-8'));
-    console.log(data);
+    tasks = data;
   } catch(err){
     console.error(err);
   }
@@ -103,7 +104,11 @@ function hello(name){
  * @returns {void}
  */
 function quit(){
-  fs.writeFileSync('database.json',JSON.stringify(tasks));
+  try{
+    fs.writeFileSync('database.json',JSON.stringify(tasks));
+  } catch(err){
+    console.error(err);
+  }
   console.log('Save!'); 
   console.log('Quitting now, goodbye!')
   process.exit();
@@ -221,4 +226,4 @@ function quit(){
 startApp("Mohamad Al Mell")
 
 // Tasks
-  var tasks = [{'task': 'laundry', 'status': 'undone'}, {'task': 'dish washing', 'status': 'done'}, {'task': 'shopping', 'status': 'done'}];
+  // var tasks = [{'task': 'laundry', 'status': 'undone'}, {'task': 'dish washing', 'status': 'done'}, {'task': 'shopping', 'status': 'done'}];
