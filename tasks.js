@@ -100,7 +100,9 @@ function quit(){
  *
  * @returns {void}
  */function help(){
-  console.log('quit,exit -to exit the application' + '\n' + 'hello -to say Hello!');
+   for (let i = 0; i < cmd.length; i++) {
+     console.log(`To ${cmd[i]} type ${cmd[i]}`);
+   }
 }
 
 /**
