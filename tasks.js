@@ -33,7 +33,7 @@ function startApp(name){
  * @param  {string} text data typed by the user
  * @returns {void}
  */
-var cmd = ["quit", "hello", "help", "exit", "list", "add", "remove", "edit"];
+var cmd = ["quit", "hello", "help", "exit", "list", "add", "remove", "edit", "check", "uncheck"];
 
 function onDataReceived(text) {
   if (text === 'quit\n' || text === 'exit\n') {
@@ -54,6 +54,12 @@ function onDataReceived(text) {
     text = text.trim().replace("\n", '')
     remove(text);
   }else if (text.replace("\n", '').trim() === cmd[7] || text.length>4 && text.includes("edit"))  {
+    text = text.trim().replace("\n", '')
+    edit(text);
+  }else if (text.replace("\n", '').trim() === cmd[8] || text.length>5 && text.includes("check"))  {
+    text = text.trim().replace("\n", '')
+    edit(text);
+  }else if (text.replace("\n", '').trim() === cmd[9] || text.length>7 && text.includes("uncheck"))  {
     text = text.trim().replace("\n", '')
     edit(text);
   }else {
@@ -168,7 +174,37 @@ function quit(){
     console.log(`Edited \"${tasks[tasks.length-1].task}\"`);
     tasks[tasks.length -1].task = edt.slice(1).join(" ");
   }
- }   
+ } 
+ 
+ /*
+ * Check tasks
+ *
+ * @returns {void}
+ */function edit(input){
+  input = input.trim().replace('\n', '')
+  let edt = input.split(" ");
+  if (input === 'check') {
+   console.log('Wrong input!'); 
+  }else if (isNaN(edt[1]) == false) {
+    console.log(`Checked \"${tasks[edt[1]-1].task}\"`);
+    tasks[edt[1]-1].status = 'done';
+  } 
+ } 
+
+  /*
+ * Uncheck tasks
+ *
+ * @returns {void}
+ */function edit(input){
+  input = input.trim().replace('\n', '')
+  let edt = input.split(" ");
+  if (input === 'uncheck') {
+   console.log('Wrong input!'); 
+  }else if (isNaN(edt[1]) == false) {
+    console.log(`unchecked \"${tasks[edt[1]-1].task}\"`);
+    tasks[edt[1]-1].status = 'undone';
+  } 
+ } 
 
 
 // The following line starts the application
