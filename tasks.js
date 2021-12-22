@@ -33,7 +33,7 @@ function startApp(name){
  * @param  {string} text data typed by the user
  * @returns {void}
  */
-var cmd = ["quit", "hello", "help", "exit", "list", "add", "remove"];
+var cmd = ["quit", "hello", "help", "exit", "list", "add", "remove", "edit"];
 
 function onDataReceived(text) {
   if (text === 'quit\n' || text === 'exit\n') {
@@ -53,6 +53,9 @@ function onDataReceived(text) {
   }else if (text.replace("\n", '').trim() === cmd[6] || text.length>6 && text.includes("remove"))  {
     text = text.trim().replace("\n", '')
     remove(text);
+  }else if (text.replace("\n", '').trim() === cmd[7] || text.length>4 && text.includes("edit"))  {
+    text = text.trim().replace("\n", '')
+    edit(text);
   }else {
     unknownCommand(text);
   }
@@ -109,7 +112,7 @@ function quit(){
   // all = all.trim()
   if (input != []) {
     for (let i = 0; i < tasks.length; i++) {
-      console.log(tasks[i]);
+      console.log(`${i+1} - [ ] ${tasks[i]}`);
     }
   }
 }
@@ -122,6 +125,7 @@ function quit(){
   if (input.length>3) {
     let item = input.split(" ", 2)
     tasks.push(item[1])
+    console.log(`Added \"${item[1]}\" to the tasks`);
   } else console.log("error!");
 }
 
@@ -133,14 +137,36 @@ function quit(){
    let rmv = input.split(" ",2);
    let num = parseInt(rmv[1]);
    if (input === 'remove') {
-    tasks.splice(-1)
+    console.log(`Removed \"${tasks[tasks.length-1]}\" from the tasks`);
+    tasks.splice(-1);
   } else if (num > 0) {
+    console.log(`Removed \"${tasks[num-1]}\" from the tasks`);
     tasks.splice((num-1),1);
     if (num > tasks.length) {
       console.log('Item doesn\'t exist');
     }
   } 
  }
+
+ /*
+ * Edit tasks
+ *
+ * @returns {void}
+ */function edit(input){
+   input = input.trim().replace('\n', '')
+  let edt = input.split(" ");
+  if (input === 'edit') {
+   console.log('Wrong input!'); 
+  }else if (isNaN(edt[1]) == true) {
+    console.log(`Edited \"${tasks[tasks.length-1]}\"`);
+    tasks[tasks.length -1] = edt.slice(1).join(" ");
+  } else {
+    console.log(`Edited \"${tasks[edt[1]-1]}\"`);
+    tasks[edt[1]-1] = edt.slice(2).join(" ")
+  }
+ }   
+
+
 // The following line starts the application
 startApp("Mohamad Al Mell")
 
