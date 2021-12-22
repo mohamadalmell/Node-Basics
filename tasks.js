@@ -193,7 +193,7 @@ function quit(){
 
   /*
  * Uncheck tasks
- *
+ /*
  * @returns {void}
  */function edit(input){
   input = input.trim().replace('\n', '')
