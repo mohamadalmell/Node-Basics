@@ -130,15 +130,17 @@ function quit(){
  *
  * @returns {void}
  */function remove(input){
-    if (input === 'remove') {
-      tasks.splice(-1,1)
-    } else if (input.includes('1')) {
-      tasks.splice(0,1)
-    } else if (input.includes('2')) {
-      tasks.splice(1,1)
+   let rmv = input.split(" ",2);
+   let num = parseInt(rmv[1]);
+   if (input === 'remove') {
+    tasks.splice(-1)
+  } else if (num > 0) {
+    tasks.splice((num-1),1);
+    if (num > tasks.length) {
+      console.log('Item doesn\'t exist');
     }
-}
-
+  } 
+ }
 // The following line starts the application
 startApp("Mohamad Al Mell")
 
