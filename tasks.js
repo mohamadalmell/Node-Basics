@@ -1,4 +1,5 @@
-
+var fs = require('fs');
+const { json } = require('stream/consumers');
 /**
  * Starts the application
  * This is the function that is run when the app starts
@@ -10,6 +11,12 @@
  * @returns {void}
  */
 function startApp(name){
+  try{
+    const data = JSON.parse(fs.readFileSync('/home/mohamad/Desktop/Mohamad-Codi/Node-Basics/database.json', 'utf-8'));
+    console.log(data);
+  } catch(err){
+    console.error(err);
+  }
   process.stdin.resume();
   process.stdin.setEncoding('utf8');
   process.stdin.on('data', onDataReceived);
@@ -56,11 +63,10 @@ function onDataReceived(text) {
   }else if (text.replace("\n", '').trim() === cmd[7] || text.length>4 && text.includes("edit"))  {
     text = text.trim().replace("\n", '')
     edit(text);
-  }else if (text.replace("\n", '').trim() === cmd[8] && text.length>5)  {
+  }else if (text.replace("\n", '').trim() === cmd[8] || (isNaN(text.split(' ')[1]) == false && text.split(' ')[0] === cmd[8]))  {
     text = text.trim().replace("\n", '')
-    console.log(text.replace("\n", '').trim());
     check(text);
-  }else if (text.replace("\n", '').trim() === cmd[9] || text.length>7)  {
+  }else if (text.replace("\n", '').trim() === cmd[9] && text.length > 7 || text.includes('uncheck'))  {
     text = text.trim().replace("\n", '')
     uncheck(text);
   }else {
@@ -97,9 +103,11 @@ function hello(name){
  * @returns {void}
  */
 function quit(){
-  // localStorage.setItem("database", myJSON)
+  fs.writeFileSync('database.json',JSON.stringify(tasks));
+  console.log('Save!'); 
   console.log('Quitting now, goodbye!')
   process.exit();
+  
 }
 
 
@@ -214,4 +222,3 @@ startApp("Mohamad Al Mell")
 
 // Tasks
   var tasks = [{'task': 'laundry', 'status': 'undone'}, {'task': 'dish washing', 'status': 'done'}, {'task': 'shopping', 'status': 'done'}];
-  // const myJSON = JSON.stringify(tasks)
