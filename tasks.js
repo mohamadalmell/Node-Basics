@@ -56,12 +56,13 @@ function onDataReceived(text) {
   }else if (text.replace("\n", '').trim() === cmd[7] || text.length>4 && text.includes("edit"))  {
     text = text.trim().replace("\n", '')
     edit(text);
-  }else if (text.replace("\n", '').trim() === cmd[8] || text.length>5 && text.includes("check"))  {
+  }else if (text.replace("\n", '').trim() === cmd[8] && text.length>5)  {
     text = text.trim().replace("\n", '')
-    edit(text);
-  }else if (text.replace("\n", '').trim() === cmd[9] || text.length>7 && text.includes("uncheck"))  {
+    console.log(text.replace("\n", '').trim());
+    check(text);
+  }else if (text.replace("\n", '').trim() === cmd[9] || text.length>7)  {
     text = text.trim().replace("\n", '')
-    edit(text);
+    uncheck(text);
   }else {
     unknownCommand(text);
   }
@@ -96,6 +97,7 @@ function hello(name){
  * @returns {void}
  */
 function quit(){
+  // localStorage.setItem("database", myJSON)
   console.log('Quitting now, goodbye!')
   process.exit();
 }
@@ -180,7 +182,7 @@ function quit(){
  * Check tasks
  *
  * @returns {void}
- */function edit(input){
+ */function check(input){
   input = input.trim().replace('\n', '')
   let edt = input.split(" ");
   if (input === 'check') {
@@ -195,13 +197,13 @@ function quit(){
  * Uncheck tasks
  /*
  * @returns {void}
- */function edit(input){
+ */function uncheck(input){
   input = input.trim().replace('\n', '')
   let edt = input.split(" ");
   if (input === 'uncheck') {
    console.log('Wrong input!'); 
   }else if (isNaN(edt[1]) == false) {
-    console.log(`unchecked \"${tasks[edt[1]-1].task}\"`);
+    console.log(`Unchecked \"${tasks[edt[1]-1].task}\"`);
     tasks[edt[1]-1].status = 'undone';
   } 
  } 
@@ -211,4 +213,5 @@ function quit(){
 startApp("Mohamad Al Mell")
 
 // Tasks
-  var tasks = [{'task': 'laundry', 'status': 'undone'}, {'task': 'dish washing', 'status': 'done'}, {'task': 'shopping', 'status': 'done'}]
+  var tasks = [{'task': 'laundry', 'status': 'undone'}, {'task': 'dish washing', 'status': 'done'}, {'task': 'shopping', 'status': 'done'}];
+  // const myJSON = JSON.stringify(tasks)
