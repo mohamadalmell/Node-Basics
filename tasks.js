@@ -1,6 +1,12 @@
 var fs = require('fs');
+const process = require('process');
+var argv = process.argv
 var tasks = [];
 const { json } = require('stream/consumers');
+
+argv.forEach((val, index) =>{
+  console.log(`${index}: ${val}`);
+})
 /**
  * Starts the application
  * This is the function that is run when the app starts
@@ -13,8 +19,12 @@ const { json } = require('stream/consumers');
  */
 function startApp(name){
   try{
-    const data = JSON.parse(fs.readFileSync('/home/mohamad/Desktop/Mohamad-Codi/Node-Basics/database.json', 'utf-8'));
-    tasks = data;
+    if (argv.length == 2) {
+      var data = JSON.parse(fs.readFileSync(`/home/mohamad/Desktop/Mohamad-Codi/Node-Basics/database.json`, 'utf-8'));
+    } else if (argv.length > 2) {
+       data = JSON.parse(fs.readFileSync(`${argv.at(-1)}.json`, 'utf-8'));
+    }
+    tasks = data;  
   } catch(err){
     console.error(err);
   }
@@ -105,7 +115,11 @@ function hello(name){
  */
 function quit(){
   try{
-    fs.writeFileSync('database.json',JSON.stringify(tasks));
+    if (argv.length == 2) {
+      fs.writeFileSync(`database.json`,JSON.stringify(tasks));
+    } else if (argv.length > 2) {
+      fs.writeFileSync(`${argv.at(-1)}.json`,JSON.stringify(tasks));
+    }
   } catch(err){
     console.error(err);
   }
@@ -167,7 +181,6 @@ function quit(){
   } else if (num > tasks.length) {
     console.log('Item doesn\'t exist');
   }else if (0< num <= tasks.length  ) {
-    console.log(num);
     console.log(`Removed \"${tasks[num-1].task}\" from the tasks`);
     tasks.splice((num-1),1);
   } 
@@ -224,6 +237,3 @@ function quit(){
 
 // The following line starts the application
 startApp("Mohamad Al Mell")
-
-// Tasks
-  // var tasks = [{'task': 'laundry', 'status': 'undone'}, {'task': 'dish washing', 'status': 'done'}, {'task': 'shopping', 'status': 'done'}];
